@@ -17,9 +17,6 @@ const allTips = [
   "吸血鬼的被动会将部分生命值转化为额外法术强度，而心之钢提供可成长生命值",
   "河流之主塔姆的 Q 技能舌头长度会跟随生命值成长",
   "亡灵战神塞恩的 W 技能护盾值会根据自身最大生命值提供加成",
-  "本模拟器使用 Vue.js 3 + TypeScript + Vite 进行开发",
-  "欢迎熟悉前端开发的朋友贡献更多有趣的段子和功能",
-  "本模拟器是一个 PWA 应用，你可以添加到你的手机桌面上随时使用",
 ];
 const tipMagicIndex = ref(randomInteger(0, 1000));
 const tipMagicStep = ref(randomInteger(0, allTips.length - 1));

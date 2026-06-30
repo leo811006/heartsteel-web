@@ -14,7 +14,6 @@ let heartResourcesProviderInstance: HeartsteelResourcesProvider | null = null;
 function installHeartsteelResourcesProvider(
   resources: HeartsteelResourcesProvider
 ): void {
-  console.debug("installHeartsteelResourcesProvider:", resources);
   heartResourcesProviderInstance = resources;
 }
 
@@ -46,7 +45,6 @@ class HeartsteelChargeProcess {
 
   maxStackCount = MAX_CHARGE_STACK_COUNT;
 
-  isDebugging = false;
   onStackCountChange: (current: number) => void = () => {};
 
   constructor() {}
@@ -59,9 +57,6 @@ class HeartsteelChargeProcess {
   }
 
   start(): void {
-    if (this.isDebugging) {
-      console.debug("HeartsteelChargeProcess::start");
-    }
     this.chargeIntervalCallback = window.setInterval(
       () => this.onChargeIntervalTick(),
       CHARGE_INTERVAL_MS
@@ -71,9 +66,6 @@ class HeartsteelChargeProcess {
   }
 
   stop(): void {
-    if (this.isDebugging) {
-      console.debug("HeartsteelChargeProcess::stop");
-    }
     this.isStopped = true;
     // clear interval
     if (this.chargeIntervalCallback) {
@@ -85,15 +77,7 @@ class HeartsteelChargeProcess {
     if (this.isStopped) {
       return;
     }
-    if (this.isDebugging) {
-      console.debug(
-        "HeartsteelChargeProcess::onChargeIntervalTick",
-        `count=${this.currentStackCount}`
-      );
-    }
-    // notify current stack
     this.onStackCountChange(this.currentStackCount);
-    // get audio element
     let audioEl: HTMLAudioElement;
     if (this.currentStackCount < MAX_CHARGE_STACK_COUNT) {
       audioEl = heartResourcesProviderInstance!.getStackSFX(
@@ -104,20 +88,11 @@ class HeartsteelChargeProcess {
         randomInteger(0, 2)
       );
     }
-    if (this.isDebugging) {
-      console.debug(
-        "HeartsteelChargeProcess::onChargeIntervalTick sfx_audio_el=",
-        audioEl
-      );
-    }
     this.activeAudio = audioEl;
-
-    // play sfx
     try {
       await playSoundWithSettings(audioEl);
-    } catch (e) {
-      console.error("failed to play sfx:", e);
-      // throw exception?
+    } catch (_) {
+      // sfx play failed, ignore
     }
     // stop self when reached max charge stack count
     if (this.currentStackCount === MAX_CHARGE_STACK_COUNT) {
@@ -152,7 +127,6 @@ class HeartsteelController {
     this.heroMaxHP = readonly(heroMaxHP);
 
     this.chargeProcess = new HeartsteelChargeProcess();
-    this.chargeProcess.isDebugging = true;
     this.chargeProcess.onStackCountChange = (n: number) => {
       this.currentChargeStack.value = n;
     };
@@ -171,9 +145,7 @@ class HeartsteelController {
       randomInteger(0, 2)
     );
     this.activeAudio = audioEl;
-    playSoundWithSettings(audioEl).catch((e) => {
-      console.error(e);
-    });
+    playSoundWithSettings(audioEl).catch(() => {});
     // grant bonus hp
     applyHeartsteelTripleLogic(this.itemBonusHP, this.triggerGrantBonusHP, this.TRIPLE_THRESHOLD);
     // restart heartsteel charge process

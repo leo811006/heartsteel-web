@@ -150,15 +150,7 @@ const { soundEnabled, vibrateEnabled } = useMainSettings();
 
 <template>
   <div class="related-links">
-    <div class="fake-a" @click="qrcodeVisible = true">
-      https://heartsteel.gwo.app
-    </div>
-    <span class="divider">|</span>
-    <a href="https://github.com/fython/heartsteel-web" target="_blank">
-      GitHub
-    </a>
-    <span class="divider">|</span>
-    <div class="fake-a" @click="licenseVisible = true">设置 &amp; 帮助</div>
+    <div class="fake-a" @click="licenseVisible = true">設置 &amp; 幫助</div>
 
     <vue-final-modal
       class="qrcode-share-modal"
