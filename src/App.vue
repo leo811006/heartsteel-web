@@ -7,8 +7,6 @@ import PlayButton from "@/components/PlayButton.vue";
 import AttackButton from "@/components/AttackButton.vue";
 import HeartsteelAudioResources from "@/components/HeartsteelAudioResources.vue";
 import ChargingProgressBar from "@/components/ChargingProgressBar.vue";
-import GameTips from "@/components/GameTips.vue";
-import RelatedLinks from "@/components/RelatedLinks.vue";
 import ItemSelector from "@/components/ItemSelector.vue";
 import HeartsteelQuest from "@/components/HeartsteelQuest.vue";
 import { TANK_ITEMS, DD_ITEM_URL } from "@/game/items/tank-items";
@@ -108,9 +106,6 @@ document.addEventListener("keypress", (event) => {
         :threshold="ctrl.heartsteel.TRIPLE_THRESHOLD"
         :is-unlocked="ctrl.heartsteel.isTripleUnlocked.value"
       />
-      <!-- Help & About -->
-      <game-tips class="app-game-tips" />
-      <related-links class="app-related-links" />
     </div>
 
     <div class="background">
@@ -226,16 +221,6 @@ main {
   margin-top: 12px;
 }
 
-.app-game-tips {
-  margin-top: 32px;
-  width: calc(100% - 32px);
-  text-align: center;
-}
-
-.app-related-links {
-  margin-top: 32px;
-  width: calc(100% - 16px);
-}
 
 @media screen and (max-height: 700px) {
   .passive-text {
@@ -253,14 +238,6 @@ main {
   }
 
   .app-quest {
-    margin-top: 8px;
-  }
-
-  .app-game-tips {
-    margin-top: 8px;
-  }
-
-  .app-related-links {
     margin-top: 8px;
   }
 }
